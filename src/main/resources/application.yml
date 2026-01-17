@@ -4,6 +4,15 @@ spring:
   profiles:
     active: local
 
+  cloud:
+    openfeign:
+      client:
+        config:
+          default:
+            connect-timeout: 5000
+            read-timeout: 10000
+            logger-level: BASIC
+
   sql:
     init:
       mode: never

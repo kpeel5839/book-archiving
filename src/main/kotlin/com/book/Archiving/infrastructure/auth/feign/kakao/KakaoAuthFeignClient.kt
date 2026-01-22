@@ -1,4 +1,4 @@
-package com.book.Archiving.infrastructure.client.kakao
+package com.book.Archiving.infrastructure.auth.feign.kakao
 
 import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.web.bind.annotation.GetMapping
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestHeader
     name = "kakao-auth-client",
     url = "https://kapi.kakao.com"
 )
-interface KakaoAuthClient {
+interface KakaoAuthFeignClient {
 
     @GetMapping("/v2/user/me")
     fun getUserInfo(

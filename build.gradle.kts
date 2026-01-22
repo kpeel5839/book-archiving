@@ -12,9 +12,8 @@ version = "0.0.1-SNAPSHOT"
 description = "Demo project for Spring Boot"
 
 java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(21)
-	}
+	sourceCompatibility = JavaVersion.VERSION_21
+	targetCompatibility = JavaVersion.VERSION_21
 }
 
 configurations {
@@ -58,6 +57,20 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.bouncycastle/bcpkix-jdk15on
 	implementation("org.bouncycastle:bcpkix-jdk15on:1.69")
 
+	// JWT
+	implementation("io.jsonwebtoken:jjwt-api:0.12.6")
+	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.6")
+	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.6")
+
+	// H2 for test
+	runtimeOnly("com.h2database:h2")
+
+	// MySQL for production
+	runtimeOnly("com.mysql:mysql-connector-j")
+
+	// Spring Web
+	implementation("org.springframework.boot:spring-boot-starter-web")
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
@@ -82,6 +95,7 @@ dependencyManagement {
 
 kotlin {
 	compilerOptions {
+		jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
 		freeCompilerArgs.addAll(
 			listOf(
 				"-Xjsr305=strict",

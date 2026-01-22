@@ -1,4 +1,4 @@
-package com.book.Archiving.infrastructure.client.apple
+package com.book.Archiving.infrastructure.auth.feign.apple
 
 import com.fasterxml.jackson.annotation.JsonProperty
 

@@ -1,4 +1,4 @@
-package com.book.Archiving.infrastructure.client.apple
+package com.book.Archiving.infrastructure.auth.feign.apple
 
 import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.http.MediaType
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam
     name = "apple-auth-client",
     url = "https://appleid.apple.com"
 )
-interface AppleAuthClient {
+interface AppleAuthFeignClient {
 
     @GetMapping("/auth/keys")
     fun getPublicKeys(): ApplePublicKeyResponse

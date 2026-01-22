@@ -1,0 +1,29 @@
+package com.book.Archiving.config
+
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
+import org.springframework.security.config.http.SessionCreationPolicy
+import org.springframework.security.web.SecurityFilterChain
+
+@Configuration
+@EnableWebSecurity
+class SecurityConfig {
+
+    @Bean
+    fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
+        return http
+            .csrf { it.disable() }
+            .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
+            .authorizeHttpRequests { auth ->
+                auth
+                    .requestMatchers("/api/v1/auth/**").permitAll()
+                    .requestMatchers("/h2-console/**").permitAll()
+                    .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/book-archiving/**").permitAll()
+                    .anyRequest().authenticated()
+            }
+            .headers { it.frameOptions { frame -> frame.disable() } }
+            .build()
+    }
+}

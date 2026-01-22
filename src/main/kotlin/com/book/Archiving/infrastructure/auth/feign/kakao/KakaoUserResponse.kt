@@ -1,4 +1,4 @@
-package com.book.Archiving.infrastructure.client.kakao
+package com.book.Archiving.infrastructure.auth.feign.kakao
 
 import com.fasterxml.jackson.annotation.JsonProperty
 

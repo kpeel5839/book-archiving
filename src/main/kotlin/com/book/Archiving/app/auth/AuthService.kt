@@ -34,7 +34,7 @@ class AuthService(
             userRepository.save(updatedUser)
         } else {
             userRepository.save(
-                User.create(
+                User(
                     socialId = socialUserInfo.socialId,
                     socialProvider = provider,
                     email = socialUserInfo.email,

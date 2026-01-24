@@ -4,8 +4,42 @@ import com.book.Archiving.domain.fixture.UserFixture
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
 class UserTest {
+
+    @Test
+    fun `socialId가 빈 문자열이면 예외가 발생한다`() {
+        // given
+        val blankSocialId = "   "
+
+        // when & then
+        assertThrows<IllegalArgumentException> {
+            User(socialId = blankSocialId, socialProvider = SocialType.KAKAO)
+        }
+    }
+
+    @Test
+    fun `email에 @가 포함되지 않으면 예외가 발생한다`() {
+        // given
+        val invalidEmail = "invalid-email"
+
+        // when & then
+        assertThrows<IllegalArgumentException> {
+            User(socialId = "12345", socialProvider = SocialType.KAKAO, email = invalidEmail)
+        }
+    }
+
+    @Test
+    fun `nickname이 20자를 초과하면 예외가 발생한다`() {
+        // given
+        val longNickname = "a".repeat(21)
+
+        // when & then
+        assertThrows<IllegalArgumentException> {
+            User(socialId = "12345", socialProvider = SocialType.KAKAO, nickname = longNickname)
+        }
+    }
 
     @Test
     fun `프로필 정보를 업데이트할 수 있다`() {

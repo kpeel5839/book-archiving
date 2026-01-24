@@ -11,7 +11,7 @@ object UserFixture {
         id: Long = RandomGenerator.generateNonNullNumeric(2).toLong(),
         socialId: String = RandomGenerator.generateNonNullString(5),
         socialProvider: SocialType = RandomGenerator.generateNonNullEnum(SocialType::class),
-        email: String? = RandomGenerator.generateNonNullString(5),
+        email: String? = "${RandomGenerator.generateNonNullString(5)}@test.com",
         nickname: String? = RandomGenerator.generateNonNullString(5),
         profileImageUrl: String? = RandomGenerator.generateNonNullString(5),
         createdAt: LocalDateTime = LocalDateTime.now(),

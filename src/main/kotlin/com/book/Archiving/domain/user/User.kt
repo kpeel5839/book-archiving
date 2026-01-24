@@ -12,21 +12,14 @@ data class User(
     val createdAt: LocalDateTime = LocalDateTime.now(),
     val updatedAt: LocalDateTime = LocalDateTime.now()
 ) {
-    companion object {
-        fun create(
-            socialId: String,
-            socialProvider: SocialType,
-            email: String? = null,
-            nickname: String? = null,
-            profileImageUrl: String? = null
-        ): User {
-            return User(
-                socialId = socialId,
-                socialProvider = socialProvider,
-                email = email,
-                nickname = nickname,
-                profileImageUrl = profileImageUrl
-            )
+
+    init {
+        require(socialId.isNotBlank()) { "socialId must not be blank" }
+        email?.let {
+            require(it.contains("@")) { "email must contain @" }
+        }
+        nickname?.let {
+            require(it.length <= 20) { "nickname must be 20 characters or less" }
         }
     }
 
@@ -42,4 +35,5 @@ data class User(
             updatedAt = LocalDateTime.now()
         )
     }
+
 }

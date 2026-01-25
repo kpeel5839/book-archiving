@@ -8,7 +8,6 @@ import com.bookpin.app.auth.request.TokenResponse
 import com.bookpin.domain.user.SocialType
 import com.bookpin.infrastructure.auth.feign.kakao.KakaoTokenFeignClient
 import com.bookpin.presentation.auth.swagger.AuthControllerSwagger
-import jakarta.servlet.http.HttpServletRequest
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -23,7 +22,9 @@ import org.springframework.web.bind.annotation.RestController
 class AuthController(
     private val authService: AuthService,
     private val kakaoTokenFeignClient: KakaoTokenFeignClient,
-    @Value("\${oauth.kakao.client-id}") private val kakaoClientId: String
+    @Value("\${oauth.kakao.client-id}") private val kakaoClientId: String,
+    @Value("\${oauth.kakao.redirect-uri}") private val kakaoRedirectUri: String,
+    @Value("\${oauth.kakao.client-secret:}") private val kakaoClientSecret: String
 ) : AuthControllerSwagger {
 
     @PostMapping("/login")
@@ -54,15 +55,14 @@ class AuthController(
 
     @GetMapping("/kakao/token")
     fun kakaoTokenExchange(
-        @RequestParam("code") code: String,
-        request: HttpServletRequest
+        @RequestParam("code") code: String
     ): ResponseEntity<SocialLoginResponse> {
-        val redirectUri = "${request.scheme}://${request.serverName}:${request.serverPort}/test/kakao/callback"
         val tokenResponse = kakaoTokenFeignClient.getToken(
             grantType = "authorization_code",
             clientId = kakaoClientId,
-            redirectUri = redirectUri,
-            code = code
+            redirectUri = kakaoRedirectUri,
+            code = code,
+            clientSecret = kakaoClientSecret.ifBlank { null }
         )
 
         val result = authService.socialLogin(

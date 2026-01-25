@@ -16,7 +16,8 @@ interface KakaoTokenFeignClient {
         @RequestParam("grant_type") grantType: String,
         @RequestParam("client_id") clientId: String,
         @RequestParam("redirect_uri") redirectUri: String,
-        @RequestParam("code") code: String
+        @RequestParam("code") code: String,
+        @RequestParam("client_secret", required = false) clientSecret: String? = null
     ): KakaoTokenResponse
 
 }
